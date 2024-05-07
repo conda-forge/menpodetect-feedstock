@@ -26,6 +26,9 @@ requirements:
     - opencv
 
 test:
+  requires:
+    - libopencv *=headless*  # [linux]
+
   imports:
     - menpodetect
     - menpodetect.dlib
