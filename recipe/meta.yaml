@@ -1,5 +1,5 @@
 {% set name = "menpodetect" %}
-{% set version = "0.7.0" %}
+{% set version = "0.7.1" %}
 # conda-forge builds Python 3.11-3.14, and menpo (>=0.12) needs 3.11; the noarch test
 # environment is solved at python_min
 {% set python_min = "3.11" %}
@@ -10,7 +10,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 87cbb0cc0a8e29aba4173882711b27d315f47b178e7e9e1d145cf291a8cdec9c
+  sha256: 5fe2f30e0a79821611b4d5d614c7b72bbe743ee322afda76469cb8a521559bd9
 
 build:
   number: 0
