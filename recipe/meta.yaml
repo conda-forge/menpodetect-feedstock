@@ -1,41 +1,56 @@
 {% set name = "menpodetect" %}
-{% set version = "0.6.3" %}
+{% set version = "0.7.0" %}
+# conda-forge builds Python 3.11-3.14, and menpo (>=0.12) needs 3.11; the noarch test
+# environment is solved at python_min
+{% set python_min = "3.11" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: b27d6de9303194edde449be26d0ee24527e230b11b6bb8c2c18ff6a057c1b67e
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 87cbb0cc0a8e29aba4173882711b27d315f47b178e7e9e1d145cf291a8cdec9c
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv
   noarch: python
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
-    - python >=3.7
+    - python {{ python_min }}.*
     - pip
-
+    - setuptools >=77
+    - setuptools-scm >=8
   run:
-    - python >=3.7
+    - python >={{ python_min }}
+    - menpo >=0.12
     - dlib
-    - menpo
-    - opencv
+    # the conda-forge opencv package is built with opencv_contrib, which the Haar cascade
+    # detectors need from OpenCV 5 on (cv2.CascadeClassifier)
+    - opencv >=4.5
 
 test:
-  requires:
-    - libopencv *=headless*  # [linux]
-
   imports:
     - menpodetect
     - menpodetect.dlib
     - menpodetect.opencv
+  requires:
+    - python {{ python_min }}.*
+    - pip
+    - pytest >=8
+    - pytest-mock
+    - libopencv *=headless*  # [linux]
+  commands:
+    - pip check
+    # runs the real dlib and OpenCV detectors on the bundled takeo image
+    - pytest --pyargs menpodetect -v
 
 about:
   home: https://github.com/menpo/menpodetect
+  dev_url: https://github.com/menpo/menpodetect
+  doc_url: https://menpodetect.readthedocs.io/en/stable/
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE.txt
