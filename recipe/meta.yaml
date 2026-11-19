@@ -1,13 +1,13 @@
 {% set name = "menpodetect" %}
-{% set version = "0.6.3" %}
+{% set version = "0.7.1" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: b27d6de9303194edde449be26d0ee24527e230b11b6bb8c2c18ff6a057c1b67e
+  url: https://files.pythonhosted.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 5fe2f30e0a79821611b4d5d614c7b72bbe743ee322afda76469cb8a521559bd9
 
 build:
   number: 0
